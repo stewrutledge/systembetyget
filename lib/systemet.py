@@ -36,6 +36,6 @@ def fetch_rating(articleid=None):
 
 
 def add_rating(articleid=None, rating=None):
-    post = db.posts.find_one({"name": articleid})
-    db.posts.update({"name": articleid}, {"$push": {"ratings": int(rating)}})
-    db.posts.update({"name": articleid}, {"$set": {"current_rating": round(numpy.mean(post.get("ratings")),2)}})
+    post = db.posts.find_one({"name": int(articleid)})
+    db.posts.update({"name": int(articleid)}, {"$push": {"ratings": int(rating)}})
+    db.posts.update({"name": int(articleid)}, {"$set": {"current_rating": round(numpy.mean(post.get("ratings")),2)}})

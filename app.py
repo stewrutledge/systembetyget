@@ -36,11 +36,11 @@ def cat_list():
     elif request.method == 'POST':
         articleid = request.args.get('arid', None)
         rating = request.args.get('rating', None)
-        try:
-            add_rating(articleid, rating)
-            return "Updated post with %s %s \n" % (articleid, rating)
-        except:
-            return "Could not update post with %s %s \n" % (articleid, rating)
+        #try:
+        add_rating(articleid, rating)
+        return "Updated post with %s %s \n" % (articleid, rating)
+        #except:
+        #    return "Could not update post with %s %s \n" % (articleid, rating)
 
 if __name__ == '__main__':
     app.run(debug=True)
