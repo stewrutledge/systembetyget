@@ -6,20 +6,51 @@ from pyelasticsearch import ElasticSearch
 
 es = ElasticSearch('http://localhost:9200/')
 
-response = urllib2.urlopen('http://www.systembolaget.se/Assortment.aspx?Format=Xml')
-tree = ET.parse(response)
+#response = urllib2.urlopen('http://www.systembolaget.se/Assortment.aspx?Format=Xml')
+#tree = ET.parse(response)
+tree = ET.parse('articles.xml')
 root = tree.getroot()
 articles = {}
 list = []
+
+#for item in root.findall('artikel'):
+#    list.append(articles)
+#    articles = {}
+#    for subitem in item:
+#        articles[subitem.tag] = subitem.text
+
+def isint(string):
+    try:
+        int(string)
+        return True
+    except ValueError:
+        return False
+
+def isflt(string):
+    try:
+        float(string)
+        return True
+    except ValueError:
+        return False
 
 for item in root.findall('artikel'):
     list.append(articles)
     articles = {}
     for subitem in item:
-        articles[subitem.tag] = subitem.text
+        if subitem.text is not None:
+          if isint(subitem.text):
+              articles[subitem.tag] = int(subitem.text)
+              print "Int"
+          elif isflt(subitem.text):
+              articles[subitem.tag] = float(subitem.text)
+              print "Float"
+          else:
+              articles[subitem.tag] = subitem.text
+
+
 
 for i,article in enumerate(list):
     if len(article) == 0:
         print "Empty value found"
     else:
-        print es.index('articles','article',article,id=i)
+        print es.index('articles3','article',article,id=i)

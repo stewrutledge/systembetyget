@@ -10,6 +10,9 @@ def cat_list():
         name = request.args.get('name', None)
         limit = request.args.get('limit', 25)
         search_term = request.args.get('searchterm', None)
+        target = request.args.get('target', None)
+        from_range = request.args.get('from', None)
+        to_range = request.args.get('to', None)
         boolean = request.args.get('boolean', "OR")
         search_list = []
         if cat:
@@ -23,7 +26,10 @@ def cat_list():
         else:
             search_string = str(" " + boolean + " ").join(search_list)
         app.jinja_env.globals.update(fetch_rating=fetch_rating)
-        output = query(search_string, limit)
+        if target and from_range and to_range:
+            output = query(search_string, limit, target, int(from_range), int(to_range))
+        else:
+            output = query(search_string, limit)
         #output = es.search(search_string,index='articles',size=100)
         return render_template('index.html', output=output)
     elif request.method == 'POST':
