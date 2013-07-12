@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <title>Test</title>
+  <link rel="stylesheet" href="static/css/bootstrap.css"/>
+  <link rel="stylesheet" href="static/css/rateit.css"/>
+  <script type="text/javascript" src="static/js/jquery.min.js"></script>
+  <script type="text/javascript" src="static/js/jquery.rateit.min.js"></script>
+</head>
+<body>
+    <div class="navbar">
+    <div class="navbar-inner">
+    <a class="brand" href="#">Systembetyget</a>
+    <ul class="nav">
+    <li class="active"><a href="#">Home</a></li>
+    </ul>
+      <form class="navbar-form pull-right" method="GET">
+        <input type="text" class="search-query" name="searchterm" placeholder="sök">
+      </form>
+    </div>
+    </div>
+  </div>
+<div class="row-fluid">
+  <div class="span12">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+      {% for header in ['Name', 'Category', 'Producer', 'Price', 'Price/Liter', 'Origin', 'Alcohol %', 'Rating']  %}
+        <td>{{ header }}</td>
+      {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+    {% for item in output['hits']['hits'] %}
+    <tr>
+    {% for value in ['Namn','Varugrupp','Producent','Prisinklmoms','PrisPerLiter','Ursprunglandnamn', 'Alkoholhalt'] %}
+      <td>{{ item['_source'][value] }}</td>
+    {% endfor %}
+      <td>{{ fetch_rating(item['_source']['Artikelid']) }}</td>
+      <td><div class="rateit" data-rateit-value="{{ fetch_rating(item['_source']['Artikelid']) }}" data-rateit-readonly="true" data-rateit-step="1" data-rateit-resetable="false" ></td>
+    </tr>
+  {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+</body>
+</html>
