@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 
 import xml.etree.ElementTree as ET
-#import urllib2
+import urllib2
 from pyelasticsearch import ElasticSearch
 
 es = ElasticSearch('http://localhost:9200/')
 
 # This is for downloading directly from systembolaget
-#response = urllib2.urlopen(
-#    'http://www.systembolaget.se/Assortment.aspx?Format=Xml')
-#tree = ET.parse(response)
+response = urllib2.urlopen(
+    'http://www.systembolaget.se/Assortment.aspx?Format=Xml')
+tree = ET.parse(response)
 # For local use (so systembolaget doesn't get annoyed
-tree = ET.parse('articles.xml')
+#tree = ET.parse('articles.xml')
 root = tree.getroot()
 articles = {}
 list = []

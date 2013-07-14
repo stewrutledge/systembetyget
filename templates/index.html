@@ -17,7 +17,14 @@
     <li class="active"><a href="#">Home</a></li>
     </ul>
       <form class="navbar-form pull-right" method="GET">
-        <input type="text" class="search-query" name="searchterm" placeholder="sök">
+        <input type="text" class="search-query" name="searchterm" placeholder="sök" />
+        <select name="target">
+          <option value="Prisinklmoms">Pris</option>
+          <option value="PrisPerLiter">Pris/Liter</option>
+        <select>
+        <input type="text" name="from" placeholder="från" />
+        <input type="text" name="to" placeholder="till" />
+        <button type="submit" class="btn btn-primary" name="submit">Sök</button>
       </form>
     </div>
     </div>

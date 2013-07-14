@@ -29,7 +29,7 @@ def cat_list():
         app.jinja_env.globals.update(fetch_rating=fetch_rating)
         if target and from_range and to_range:
             output = query(
-                search_string, limit, target, int(from_range), int(to_range))
+                search_string, limit, target, from_range, to_range)
         else:
             output = query(search_string, limit)
         return render_template('index.html', output=output)

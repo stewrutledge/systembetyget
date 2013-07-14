@@ -7,7 +7,7 @@ from math import ceil
 
 es = ElasticSearch('http://localhost:9200/')
 mongo_client = MongoClient()
-db = mongo_client.test2
+db = mongo_client.test
 
 class AutoVivification(dict):
     def __getitem__(self, item):
@@ -22,8 +22,8 @@ def query(search_string,
     query = AutoVivification()
     query['query']['filtered']['query']['query_string']['query'] = search_string
     if target and from_value and to_value:
-        query['query']['filtered']['filter']['range'][str(target)]['from'] = round(from_value,2)
-        query['query']['filtered']['filter']['range'][str(target)]['to'] = round(to_value,2)
+        query['query']['filtered']['filter']['range'][str(target)]['from'] = float(from_value)
+        query['query']['filtered']['filter']['range'][str(target)]['to'] = float(to_value)
     print query
     result = es.search(query, index='articles3', size=limit)
     return result
