@@ -10,6 +10,7 @@
   <style>body {padding-top:10px} .navbar{padding-bottom:20px;}</style>
 </head>
 <body>
+{% if mobile != 'true' %}
     <div class="navbar">
     <div class="navbar-inner">
     <a class="brand" href="#">Systembetyget</a>
@@ -40,22 +41,38 @@
       <li><a href="?cat=Whisky">Whisky</a></li>
     </ul>
   </div>
+{% endif %}
+<div class="row-fluid">
   <div class="span11">
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
-      {% for header in ['Name', 'Category', 'Producer', 'Price', 'Price/Liter', 'Origin', 'Alcohol %', 'Rating']  %}
+      {% if mobile != 'true' %}
+        {% set headers = ['Name', 'Category', 'Producer', 'Price', 'Price/Liter', 'Origin', 'Alcohol %', 'Rating'] %}
+      {% endif %}
+      {% if mobile == 'true' %}
+        {% set headers = ['Namn', 'Typ', 'Pris', 'Kr/Lit','Alk %', 'Betyg'] %}
+      {% endif %}
+      {% for header in headers %}
         <td>{{ header }}</td>
       {% endfor %}
       </tr>
     </thead>
     <tbody>
+    {% if mobile != 'true' %}
+      {% set values = ['Namn','Varugrupp','Producent','Prisinklmoms','PrisPerLiter','Ursprunglandnamn', 'Alkoholhalt'] %}
+    {% endif %}
+    {% if mobile == 'true' %}
+      {% set values = ['Namn','Varugrupp','Prisinklmoms','PrisPerLiter','Alkoholhalt'] %}
+    {% endif %}
     {% for item in output['hits']['hits'] %}
     <tr>
-    {% for value in ['Namn','Varugrupp','Producent','Prisinklmoms','PrisPerLiter','Ursprunglandnamn', 'Alkoholhalt'] %}
+    {% for value in values %}
       <td>{{ item['_source'][value] }}</td>
     {% endfor %}
+      {% if mobile != 'true' %}
       <td>{{ fetch_rating(item['_source']['Artikelid']) }}</td>
+      {% endif %}
       <td><div class="rateit" data-rateit-value="{{ fetch_rating(item['_source']['Artikelid']) }}" data-rateit-readonly="true" data-rateit-step="1" data-rateit-resetable="false" ></td>
     </tr>
   {% endfor %}

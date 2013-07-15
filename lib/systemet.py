@@ -6,7 +6,7 @@ import numpy
 
 es = ElasticSearch('http://localhost:9200/')
 mongo_client = MongoClient()
-db = mongo_client.test
+db = mongo_client.test2
 
 
 class AutoVivification(dict):
@@ -18,7 +18,7 @@ class AutoVivification(dict):
             return value
 
 
-def query(search_string,
+def query(search_string={'Ursprungsland:USA'},
           limit=None, target=None, from_value=None, to_value=None):
     query = AutoVivification()
     query['query']['filtered']['query']['query_string']['query'] \

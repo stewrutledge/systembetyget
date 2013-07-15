@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test</title>
+  <link rel="stylesheet" href="static/css/bootstrap.css"/>
+  <link rel="stylesheet" href="static/css/rateit.css"/>
+  <link rel="stylesheet" href="static/css/jquery.mobile.flatui.min.css" />
+  <script type="text/javascript" src="static/js/jquery.min.js"></script>
+  <script type="text/javascript" src="static/js/jquery.rateit.min.js"></script>
+  <script type="text/javascript" src="static/js/jquery.mobile.js"></script>
+  <script type="text/javascript" src="static/js/typeahead.js"></script>
+  <style>body {padding-top:10px} .navbar{padding-bottom:20px;}</style>
+
+</head>
+<body>
+<script type="text/javascript">
+$('#countries').typeahead({
+source: ['Nya Zeeland', 'Tyskland', 'Bosnien-Hercegovina', 'Argentina', 'Lettland', 'Internationellt märke', 'Österrike', 'Guatemala', 'Nederländerna', 'Ungern', 'Island', 'Tanzania', 'Makedonien (F.Y.R.O.M)', 'Litauen', 'Libanon', 'Jamaica', 'Moldavien', 'Sydafrika', 'Filippinerna', 'Kenya', 'Kanada', 'Polen', 'Peru', 'Luxemburg', 'Cypern', 'Folkrepubliken Kina', 'Singapore', 'Montenegro', 'Turkiet', 'Ukraina', 'Finland', 'Mauritius', 'Vietnam', 'Norge', 'Etiopien', 'Portugal', 'Tunisien', 'Nicaragua', 'Marocko', 'Indien', 'Uganda', 'Storbritannien', 'Japan', 'Sydkorea', 'Dominikanska Republiken', 'Panama', 'Costa Rica', 'Bahamas', 'Nigeria', 'Mexiko', 'Serbien', 'Varierande ursprung', 'Italien', 'Spanien', 'Chile', 'Okänt ursprung', 'Armenien', 'Haiti', 'Kuba', 'Sverige', 'Förpackning', 'Schweiz', 'Namibia', 'Thailand', 'Grenada', 'Bulgarien', 'Estland', 'Kosovo', 'Uruguay', 'Rumänien', 'Australien', 'Brasilien', 'Colombia', 'Taiwan', 'Fiji', 'Barbados', 'Trinidad', 'USA', 'Malta', 'Slovenien', 'Venezuela', 'Israel', 'Irland', 'Georgien', 'Slovakien', 'Indonesien', 'St Lucia', 'Paraguay', 'Guyana', 'Tjeckien', 'Republiken Togo', 'Grekland', 'Ryssland', 'Belgien', 'Surinam', 'Frankrike', 'Sri Lanka', 'Övriga ursprung', 'Kroatien', 'Danmark']
+});
+$("#TEST").click(function() { $("form#search").submit(); });
+$('#search').submit(function() {
+    var values = [];
+    $('#WhiteWine, #RedWine, #Beer').filter(':checked').each(function() {
+        values.push($(this).val());
+    });
+    $('#hidden_cat').val(values.join('+OR+'));
+    return true;
+});
+</script>
+<div data-role="header"> 
+	<h1>Hitta Nåt Gott</h1> 
+</div> 
+<form action="/?mobile=true&boolean=AND" id="search">
+  <fieldset data-role="controlgroup" data-type="horizontal" > 
+    <input type="radio" name="target" id="pris" value="Prisinklmoms" checked="checked" />
+    <label for="pris">Pris</label>
+    <input type="radio" name="target" id="PrisPerLiter" value="PrisPerLiter" />
+    <label for="PrisPerLiter">Pris/liter</label>
+  </fieldset>
+  <label for="from">Från</label>
+  <input name="from" id="from" value="10" min="0" max="1000" data-highlight="true" type="range">
+  <label for="till">Till</label>
+  <input name="to" id="till" value="25" min="0" max="1000" data-highlight="true" type="range">
+  <div class="countries">
+  <label>Land</label>
+  <input type="text" name="country" id="countries" data-provide="typeahead">
+  </div>
+  <fieldset data-role="controlgroup" data-type="horizontal">
+  <label>Katagori</label>
+  <input type="checkbox" value="Vitt+Vinn" id="WhiteWine" class="custom"/>
+  <label for="WhiteWine">Vitt Vin</label>
+  <input type="checkbox" value="Rött+Vin" id="RedWine" class="custom"/>
+  <label for="RedWine">Rött Vin</label>
+  <input type="checkbox" id="Beer" value="Öl" class="custom"/>
+  <label for="Beer">Öl</label>
+  <input type="checkbox" id="Liquer" class="custom"/>
+  <label for="Liquer">Sprit</label>
+  </fieldset>
+  <input type="hidden" name="cat" id="hidden_cat" />
+  <button type="submit" data-theme="b" id="submit" class="btn">Hitta</button>
+</form>
