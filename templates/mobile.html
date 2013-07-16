@@ -12,24 +12,54 @@
   <style>body {padding-top:10px} .navbar{padding-bottom:20px;}</style>
 
 </head>
-<body>
+<body id="body">
 <script type="text/javascript">
 $('#countries').typeahead({
 source: ['Nya Zeeland', 'Tyskland', 'Bosnien-Hercegovina', 'Argentina', 'Lettland', 'Internationellt märke', 'Österrike', 'Guatemala', 'Nederländerna', 'Ungern', 'Island', 'Tanzania', 'Makedonien (F.Y.R.O.M)', 'Litauen', 'Libanon', 'Jamaica', 'Moldavien', 'Sydafrika', 'Filippinerna', 'Kenya', 'Kanada', 'Polen', 'Peru', 'Luxemburg', 'Cypern', 'Folkrepubliken Kina', 'Singapore', 'Montenegro', 'Turkiet', 'Ukraina', 'Finland', 'Mauritius', 'Vietnam', 'Norge', 'Etiopien', 'Portugal', 'Tunisien', 'Nicaragua', 'Marocko', 'Indien', 'Uganda', 'Storbritannien', 'Japan', 'Sydkorea', 'Dominikanska Republiken', 'Panama', 'Costa Rica', 'Bahamas', 'Nigeria', 'Mexiko', 'Serbien', 'Varierande ursprung', 'Italien', 'Spanien', 'Chile', 'Okänt ursprung', 'Armenien', 'Haiti', 'Kuba', 'Sverige', 'Förpackning', 'Schweiz', 'Namibia', 'Thailand', 'Grenada', 'Bulgarien', 'Estland', 'Kosovo', 'Uruguay', 'Rumänien', 'Australien', 'Brasilien', 'Colombia', 'Taiwan', 'Fiji', 'Barbados', 'Trinidad', 'USA', 'Malta', 'Slovenien', 'Venezuela', 'Israel', 'Irland', 'Georgien', 'Slovakien', 'Indonesien', 'St Lucia', 'Paraguay', 'Guyana', 'Tjeckien', 'Republiken Togo', 'Grekland', 'Ryssland', 'Belgien', 'Surinam', 'Frankrike', 'Sri Lanka', 'Övriga ursprung', 'Kroatien', 'Danmark']
 });
 $("#TEST").click(function() { $("form#search").submit(); });
-$('#search').submit(function() {
+/*$('#TEST2').submit(function() {
     var values = [];
     $('#WhiteWine, #RedWine, #Beer').filter(':checked').each(function() {
         values.push($(this).val());
     });
     $('#hidden_cat').val(values.join('+OR+'));
     return true;
+});*/
+$('#back_span').click(function() {
+    location.reload();
 });
+$("#submit").click(function() {
+
+    var url = "/?mobile=true&boolean=AND";
+    var values = []
+    $('#WhiteWine, #RedWine, #Beer').filter(':checked').each(function() {
+        values.push($(this).val());
+    });
+    $('#hidden_cat').val(values.join('+OR+'));
+
+    $.ajax({
+           type: "GET",
+           url: url,
+           dataType: 'text',
+           data: $("#search").serialize(),
+           success: function(data){
+              $("#content").html(data).trigger("create");
+              $("#back_span").html("<a data-icon=\"back\" href=\"#\" data-rel=\"back\" id=\"back\" data-direct=\"reverse\">Tillbaka</a>").trigger("create");
+           },
+           error: function(data){
+              return false;
+           }
+         });
+    return false;
+});
+
 </script>
-<div data-role="header"> 
+<div data-role="header" id="header"> 
 	<h1>Hitta Nåt Gott</h1> 
+        <span id="back_span"></span>
 </div> 
+<div id="content">
 <form action="/?mobile=true&boolean=AND" id="search">
   <fieldset data-role="controlgroup" data-type="horizontal" > 
     <input type="radio" name="target" id="pris" value="Prisinklmoms" checked="checked" />
@@ -59,3 +89,4 @@ $('#search').submit(function() {
   <input type="hidden" name="cat" id="hidden_cat" />
   <button type="submit" data-theme="b" id="submit" class="btn">Hitta</button>
 </form>
+</div>

@@ -37,7 +37,10 @@ def cat_list():
                 search_string, limit, target, from_range, to_range)
         else:
             output = query(search_string, limit)
-        return render_template('index.html', output=output, mobile=mobile)
+        if mobile == 'true':
+            return render_template('mobile_result.html', output=output)
+        elif mobile != 'true':
+            return render_template('index.html', output=output, mobile=mobile)
     elif request.method == 'POST':
         articleid = request.args.get('arid', None)
         rating = request.args.get('rating', None)
