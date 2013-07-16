@@ -1,27 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test</title>
+  <link rel="stylesheet" href="static/css/bootstrap.css"/>
+  <link rel="stylesheet" href="static/css/rateit.css"/>
+  <link rel="stylesheet" href="static/css/jquery.mobile.flatui.min.css" />
+  <script type="text/javascript" src="static/js/jquery.min.js"></script>
+  <script type="text/javascript" src="static/js/jquery.rateit.min.js"></script>
+  <script type="text/javascript" src="static/js/jquery.mobile.js"></script>
+  <script type="text/javascript" src="static/js/typeahead.js"></script>
+  <style>body {padding-top:10px} .navbar{padding-bottom:20px;}</style>
+  <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+</head>
+<body id="body">
+<div data-role="header" id="header">
+        <h1>Hitta Nåt Gott</h1>
+        <a data-icon="back" href="/mobile" data-direct="reverse">Tillbaka</a>
+</div>
 <div class="row-fluid">
   <div class="span11">
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-      {% set headers = ['Namn', 'Typ', 'Pris', 'Kr/Lit','Alk %', 'Betyg'] %}
-      {% for header in headers %}
-        <td>{{ header }}</td>
-      {% endfor %}
-      </tr>
-    </thead>
-    <tbody>
-    {% set values = ['Namn','Varugrupp','Prisinklmoms','PrisPerLiter','Alkoholhalt'] %}
+    {% set values = ['Varugrupp','PrisPerLiter','Alkoholhalt'] %}
+    
     {% for item in output['hits']['hits'] %}
-    <tr>
-    {% for value in values %}
-      <td>{{ item['_source'][value] }}</td>
-    {% endfor %}
-      <td><div class="rateit" data-rateit-value="{{ fetch_rating(item['_source']['Artikelid']) }}" data-rateit-readonly="true" data-rateit-step="1" data-rateit-resetable="false" ></td>
-    </tr>
+    <div data-role="collapsible" data-content-theme="c" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d">
+      <h3> {{ item['_source']['Namn'] }}
+      <div class="rateit" data-rateit-value="{{ fetch_rating(item['_source']['Artikelid']) }}" data-rateit-readonly="true" data-rateit-step="1" data-rateit-resetable="false" /> 
+       - {{ item['_source']['Prisinklmoms'] }}kr - 
+      </h3>
+      <ul>
+        {% for value in values %}
+        <li>{{ value }} : {{ item['_source'][value] }}</li>
+        {% endfor %}
+        <li>Betyg: <div class="rateit" data-rateit-value="{{ fetch_rating(item['_source']['Artikelid']) }}" data-rateit-readonly="true" data-rateit-step="1" data-rateit-resetable="false" ></li>
+    </div>
   {% endfor %}
-    </tbody>
-  </table>
-</div>
+  </div>
 </div>
 </body>
 </html>
