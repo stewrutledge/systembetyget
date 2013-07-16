@@ -1,0 +1,27 @@
+<div class="row-fluid">
+  <div class="span11">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+      {% set headers = ['Namn', 'Typ', 'Pris', 'Kr/Lit','Alk %', 'Betyg'] %}
+      {% for header in headers %}
+        <td>{{ header }}</td>
+      {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+    {% set values = ['Namn','Varugrupp','Prisinklmoms','PrisPerLiter','Alkoholhalt'] %}
+    {% for item in output['hits']['hits'] %}
+    <tr>
+    {% for value in values %}
+      <td>{{ item['_source'][value] }}</td>
+    {% endfor %}
+      <td><div class="rateit" data-rateit-value="{{ fetch_rating(item['_source']['Artikelid']) }}" data-rateit-readonly="true" data-rateit-step="1" data-rateit-resetable="false" ></td>
+    </tr>
+  {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+</body>
+</html>
