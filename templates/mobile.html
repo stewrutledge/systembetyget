@@ -19,28 +19,25 @@ source: ['Nya Zeeland', 'Tyskland', 'Bosnien-Hercegovina', 'Argentina', 'Lettlan
 });
 $("#submit").click(function() {
 
-    var url = "/?mobile=true&boolean=AND";
     var values = []
     $('#WhiteWine, #RedWine, #Beer').filter(':checked').each(function() {
         values.push($(this).val());
     });
     $('#hidden_cat').val(values.join('+OR+'));
-
-    $.mobile.changePage( url, {
+    $.mobile.changePage( "/?mobile=true&boolean=AND", {
            type: "GET",
            dataType: 'text',
            changeHash: false,
            data: $("#search").serialize(),
            });
 });
-
 </script>
 <div data-role="header" id="header"> 
 	<h1>Hitta Nåt Gott</h1> 
         <span id="back_span"></span>
 </div> 
 <div id="content">
-<form action="/?mobile=true&boolean=AND" id="search">
+<form id="search">
   <fieldset data-role="controlgroup" data-type="horizontal" > 
     <input type="radio" name="target" id="pris" value="Prisinklmoms" checked="checked" />
     <label for="pris">Pris</label>
@@ -67,6 +64,6 @@ $("#submit").click(function() {
   <label for="Liquer">Sprit</label>
   </fieldset>
   <input type="hidden" name="cat" id="hidden_cat" />
-  <button type="submit" data-theme="b" id="submit" class="btn">Hitta</button>
 </form>
+  <button type="submit" data-theme="b" id="submit" class="btn">Hitta</button>
 </div>
